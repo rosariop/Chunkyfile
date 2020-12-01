@@ -1,4 +1,4 @@
-package org.acme.config;
+package de.rosariop.chunkyfile.example;
 
 import java.util.Optional;
 
