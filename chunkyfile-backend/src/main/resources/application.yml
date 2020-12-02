@@ -9,3 +9,4 @@ quarkus:
 
 config:
   basePath: "/home/polito/chunkyfileData"
+  delimitter: "/"
