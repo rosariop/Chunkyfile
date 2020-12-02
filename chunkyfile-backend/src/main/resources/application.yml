@@ -1,3 +1,11 @@
 greeting:
   message: "hello"
   name: "quarkus"
+quarkus:
+  smallrye-openapi:
+    path: "/swagger"
+  swagger-ui:
+    path: "/swagger-ui"
+
+config:
+  basePath: "/home/polito/chunkyfileData"
