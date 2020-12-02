@@ -1,5 +1,7 @@
 package de.rosariop.chunkyfile.bucket;
 
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
 import javax.ws.rs.PathParam;
 
 import javax.inject.Inject;
@@ -8,6 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 @Consumes("*/*")
+@Tag(name = "Bucket API")
 @Path("/bucket")
 public class BucketResource {
 
