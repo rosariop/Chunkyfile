@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +22,8 @@ public class FileService {
 
     private static final Logger LOG = Logger.getLogger(FileService.class);
 
-    @ConfigProperty(name = "config.delemitter")
-    String delemitter;
+    @ConfigProperty(name = "config.delimiter")
+    String delimiter;
 
     @ConfigProperty(name = "config.basePath")
     String basePath;
@@ -39,11 +41,21 @@ public class FileService {
             byte[] bytes = IOUtils.toByteArray(inputStream);
 
 
-            String bucketPath = basePath + delemitter + bucketName + delemitter;
+            String bucketPath = basePath + delimiter + bucketName + delimiter;
             fileName = bucketPath + fileName;
 
             this.writeFile(bytes, fileName);
             LOG.debug("File Uploaded");
+        }
+    }
+
+    public void deleteFile(String bucketName, String fileName) throws IOException {
+        String absoluteBucketPathString = basePath+ delimiter +bucketName;
+        Path absoluteFilePath = Path.of(absoluteBucketPathString+ delimiter +fileName);
+        if(Files.exists(absoluteFilePath)){
+            Files.delete(absoluteFilePath);
+        }else {
+            LOG.debug("File does not exist.");
         }
     }
 
