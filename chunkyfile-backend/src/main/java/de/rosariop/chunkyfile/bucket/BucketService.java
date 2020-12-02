@@ -32,4 +32,13 @@ public class BucketService {
             System.out.println("Bucket does not exist.");
         }
     }
+
+    public void renameBucket(String oldBucketName, String newBucketName) throws IOException {
+        Path oldAbsoluteBucketPath = Paths.get(basePath+"/"+oldBucketName);
+        Path newAbsoluteBucketPath = Paths.get(basePath+"/"+newBucketName);
+
+        if(Files.exists(oldAbsoluteBucketPath) && !Files.exists(newAbsoluteBucketPath)){
+            Files.move(oldAbsoluteBucketPath,newAbsoluteBucketPath);
+        }
+    }
 }

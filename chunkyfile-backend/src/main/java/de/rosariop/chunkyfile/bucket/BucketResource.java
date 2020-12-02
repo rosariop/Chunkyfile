@@ -17,8 +17,8 @@ public class BucketResource {
     @POST
     @Produces("*/*")
     @Path("/{bucketName}")
-    public Response createBucket(@PathParam("bucketName") String bucketName){
-        try{
+    public Response createBucket(@PathParam("bucketName") String bucketName) {
+        try {
             bucketService.createBucket(bucketName);
         } catch (IOException e) {
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class BucketResource {
     @DELETE
     @Produces("*/*")
     @Path("/{bucketName}")
-    public Response deleteBucket(@PathParam("bucketName") String bucketName){
+    public Response deleteBucket(@PathParam("bucketName") String bucketName) {
         try {
             bucketService.deleteBucket(bucketName);
         } catch (IOException e) {
@@ -41,6 +41,21 @@ public class BucketResource {
         }
         return Response.ok().build();
     }
+
+    @PATCH
+    @Produces("*/*")
+    @Path("/{oldBucketName}/{newBucketName}")
+    public Response renameBucket(@PathParam("oldBucketName") String oldBucketName, @PathParam("newBucketName") String newBucketName) {
+        try{
+            bucketService.renameBucket(oldBucketName, newBucketName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("IO Exception deleting");
+            return Response.serverError().build();
+        }
+        return Response.ok().build();
+    }
+
 }
 
 
