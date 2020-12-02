@@ -16,7 +16,7 @@ public class BucketResource {
 
     @POST
     @Produces("*/*")
-    @Path("/create/{bucketName}")
+    @Path("/{bucketName}")
     public Response createBucket(@PathParam("bucketName") String bucketName){
         try{
             bucketService.createBucket(bucketName);
@@ -30,7 +30,7 @@ public class BucketResource {
 
     @DELETE
     @Produces("*/*")
-    @Path("/delete/{bucketName}")
+    @Path("/{bucketName}")
     public Response deleteBucket(@PathParam("bucketName") String bucketName){
         try {
             bucketService.deleteBucket(bucketName);

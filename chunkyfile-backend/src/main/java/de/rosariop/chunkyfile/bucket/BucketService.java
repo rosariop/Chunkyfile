@@ -19,8 +19,8 @@ public class BucketService {
         Path absoluteBucketPath = Paths.get(basePath+"/"+bucketName);
         if (!Files.exists(absoluteBucketPath)){
             Files.createDirectory(absoluteBucketPath);
-        }else {
-            System.out.println("Bucket allready existed");
+        } else {
+            System.out.println("Bucket already existed.");
         }
     }
 
@@ -28,6 +28,8 @@ public class BucketService {
         Path absoluteBucketPath = Paths.get(basePath+"/"+bucketName);
         if(Files.exists(absoluteBucketPath)){
             Files.delete(absoluteBucketPath);
+        } else {
+            System.out.println("Bucket does not exist.");
         }
     }
 }
