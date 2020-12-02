@@ -17,13 +17,13 @@ public class BucketService {
     @ConfigProperty(name = "config.basePath")
     String basePath;
 
-    @ConfigProperty(name = "config.delemitter")
-    String delemitter;
+    @ConfigProperty(name = "config.delimiter")
+    String delimiter;
 
 
     public void createBucket(String bucketName) throws IOException {
-        Path absoluteBucketPath = Paths.get(basePath+delemitter+bucketName);
-        if (!Files.exists(absoluteBucketPath)){
+        Path absoluteBucketPath = Paths.get(basePath + delimiter + bucketName);
+        if (!Files.exists(absoluteBucketPath)) {
             Files.createDirectory(absoluteBucketPath);
         } else {
             LOG.debug("Bucket already existed.");
@@ -31,8 +31,8 @@ public class BucketService {
     }
 
     public void deleteBucket(String bucketName) throws IOException {
-        Path absoluteBucketPath = Paths.get(basePath+delemitter+bucketName);
-        if(Files.exists(absoluteBucketPath)){
+        Path absoluteBucketPath = Paths.get(basePath + delimiter + bucketName);
+        if (Files.exists(absoluteBucketPath)) {
             Files.delete(absoluteBucketPath);
         } else {
             LOG.debug("Bucket does not exist.");
@@ -40,11 +40,11 @@ public class BucketService {
     }
 
     public void renameBucket(String oldBucketName, String newBucketName) throws IOException {
-        Path oldAbsoluteBucketPath = Paths.get(basePath+delemitter+oldBucketName);
-        Path newAbsoluteBucketPath = Paths.get(basePath+delemitter+newBucketName);
+        Path oldAbsoluteBucketPath = Paths.get(basePath + delimiter + oldBucketName);
+        Path newAbsoluteBucketPath = Paths.get(basePath + delimiter + newBucketName);
 
-        if(Files.exists(oldAbsoluteBucketPath) && !Files.exists(newAbsoluteBucketPath)){
-            Files.move(oldAbsoluteBucketPath,newAbsoluteBucketPath);
+        if (Files.exists(oldAbsoluteBucketPath) && !Files.exists(newAbsoluteBucketPath)) {
+            Files.move(oldAbsoluteBucketPath, newAbsoluteBucketPath);
         }
     }
 }
