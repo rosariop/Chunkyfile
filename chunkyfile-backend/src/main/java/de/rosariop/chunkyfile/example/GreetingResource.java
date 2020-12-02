@@ -1,4 +1,4 @@
-package org.acme.config;
+package de.rosariop.chunkyfile.example;
 
 import java.util.Optional;
 
@@ -8,7 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+@Tag(name = "Example API")
 @Path("/config-yaml/greeting")
 public class GreetingResource {
 
