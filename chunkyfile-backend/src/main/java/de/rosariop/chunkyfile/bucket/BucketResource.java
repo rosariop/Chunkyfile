@@ -1,6 +1,7 @@
 package de.rosariop.chunkyfile.bucket;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.jboss.logging.Logger;
 
 import javax.ws.rs.PathParam;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
 @Path("/bucket")
 public class BucketResource {
 
+    private static final Logger LOG = Logger.getLogger(BucketResource.class);
+
     @Inject
     BucketService bucketService;
 
@@ -25,7 +28,7 @@ public class BucketResource {
             bucketService.createBucket(bucketName);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("IO Exception creating");
+            LOG.debug("IO Exception creating");
             return Response.serverError().build();
         }
         return Response.ok().build();
@@ -39,7 +42,7 @@ public class BucketResource {
             bucketService.deleteBucket(bucketName);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("IO Exception deleting");
+            LOG.debug("IO Exception deleting");
             return Response.serverError().build();
         }
         return Response.ok().build();
@@ -53,7 +56,7 @@ public class BucketResource {
             bucketService.renameBucket(oldBucketName, newBucketName);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("IO Exception deleting");
+            LOG.debug("IO Exception deleting");
             return Response.serverError().build();
         }
         return Response.ok().build();

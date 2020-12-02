@@ -20,7 +20,8 @@ public class FileService {
 
     private static final Logger LOG = Logger.getLogger(FileService.class);
 
-    private static final String DELEMITTER = "/";
+    @ConfigProperty(name = "config.delemitter")
+    String delemitter;
 
     @ConfigProperty(name = "config.basePath")
     String basePath;
@@ -38,7 +39,7 @@ public class FileService {
             byte[] bytes = IOUtils.toByteArray(inputStream);
 
 
-            String bucketPath = basePath + DELEMITTER + bucketName + DELEMITTER;
+            String bucketPath = basePath + delemitter + bucketName + delemitter;
             fileName = bucketPath + fileName;
 
             this.writeFile(bytes, fileName);
