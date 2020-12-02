@@ -1,7 +1,6 @@
 package de.rosariop.chunkyfile.bucket;
 
-import de.rosariop.chunkyfile.exception.BucketExistsException;
-import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import javax.ws.rs.PathParam;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -18,17 +17,27 @@ public class BucketResource {
     @POST
     @Produces("*/*")
     @Path("/create/{bucketName}")
-    public Response createBucket(@PathParam String bucketName){
+    public Response createBucket(@PathParam("bucketName") String bucketName){
         try{
             bucketService.createBucket(bucketName);
-        } catch (BucketExistsException e) {
-            e.printStackTrace();
-            System.out.println("Bucket existed");
-
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("IO Exception");
-            Response.serverError().build();
+            System.out.println("IO Exception creating");
+            return Response.serverError().build();
+        }
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Produces("*/*")
+    @Path("/delete/{bucketName}")
+    public Response deleteBucket(@PathParam("bucketName") String bucketName){
+        try {
+            bucketService.deleteBucket(bucketName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("IO Exception deleting");
+            return Response.serverError().build();
         }
         return Response.ok().build();
     }

@@ -15,12 +15,19 @@ public class BucketService {
     @ConfigProperty(name = "config.basePath")
     String basePath;
 
-    public void createBucket(String bucketName) throws BucketExistsException, IOException {
+    public void createBucket(String bucketName) throws IOException {
         Path absoluteBucketPath = Paths.get(basePath+"/"+bucketName);
         if (!Files.exists(absoluteBucketPath)){
             Files.createDirectory(absoluteBucketPath);
-        } else {
-            throw new BucketExistsException();
+        }else {
+            System.out.println("Bucket allready existed");
+        }
+    }
+
+    public void deleteBucket(String bucketName) throws IOException {
+        Path absoluteBucketPath = Paths.get(basePath+"/"+bucketName);
+        if(Files.exists(absoluteBucketPath)){
+            Files.delete(absoluteBucketPath);
         }
     }
 }
