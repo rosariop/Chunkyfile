@@ -5,9 +5,12 @@ import org.jboss.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequestScoped
 public class BucketService {
@@ -28,6 +31,19 @@ public class BucketService {
         } else {
             LOG.debug("Bucket already existed.");
         }
+    }
+
+    public List<String> getFileNamesFromBucket(String bucketName) throws IOException {
+        Path absoluteBucketFolderPath = Paths.get(basePath + delimiter + bucketName + delimiter);
+        List<String> files = new ArrayList<>();
+        if (Files.exists(absoluteBucketFolderPath)) {
+            try(DirectoryStream<Path> directoryStream = Files.newDirectoryStream(absoluteBucketFolderPath)){
+                for (Path filePath : directoryStream) {
+                    files.add(filePath.getFileName().toString());
+                }
+            }
+        }
+        return files;
     }
 
     public void deleteBucket(String bucketName) throws IOException {
