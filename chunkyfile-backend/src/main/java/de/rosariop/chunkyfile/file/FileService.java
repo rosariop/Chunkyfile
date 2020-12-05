@@ -19,29 +19,11 @@ public class FileService {
 
     private static final Logger LOG = Logger.getLogger(FileService.class);
 
-    private static final int BYTE_RANGE = 5000000;
-
     @ConfigProperty(name = "config.delimiter")
     String delimiter;
 
     @ConfigProperty(name = "config.basePath")
     String basePath;
-
-    public byte[] getFileInChunks(String bucketName, String fileName) throws IOException {
-        String absoluteBucketPathString = basePath+ delimiter +bucketName;
-        Path mediaFilePath = Path.of(absoluteBucketPathString+ delimiter +fileName);
-
-        try (InputStream inputStream = Files.newInputStream(mediaFilePath) ;
-             ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
-            byte[] data = new byte[BYTE_RANGE];
-            int nRead;
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                bufferedOutputStream.write(data, 0, nRead);
-            }
-            bufferedOutputStream.flush();
-            return bufferedOutputStream.toByteArray();
-        }
-    }
 
     public void uploadFile(MultipartFormDataInput input, String bucketName) throws IOException {
         String fileName;
