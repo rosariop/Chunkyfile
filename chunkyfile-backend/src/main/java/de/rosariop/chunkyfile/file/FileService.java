@@ -8,10 +8,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.MultivaluedMap;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -22,11 +19,29 @@ public class FileService {
 
     private static final Logger LOG = Logger.getLogger(FileService.class);
 
+    private static final int BYTE_RANGE = 5000000;
+
     @ConfigProperty(name = "config.delimiter")
     String delimiter;
 
     @ConfigProperty(name = "config.basePath")
     String basePath;
+
+    public byte[] getFileInChunks(String bucketName, String fileName) throws IOException {
+        String absoluteBucketPathString = basePath+ delimiter +bucketName;
+        Path mediaFilePath = Path.of(absoluteBucketPathString+ delimiter +fileName);
+
+        try (InputStream inputStream = Files.newInputStream(mediaFilePath) ;
+             ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
+            byte[] data = new byte[BYTE_RANGE];
+            int nRead;
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                bufferedOutputStream.write(data, 0, nRead);
+            }
+            bufferedOutputStream.flush();
+            return bufferedOutputStream.toByteArray();
+        }
+    }
 
     public void uploadFile(MultipartFormDataInput input, String bucketName) throws IOException {
         String fileName;

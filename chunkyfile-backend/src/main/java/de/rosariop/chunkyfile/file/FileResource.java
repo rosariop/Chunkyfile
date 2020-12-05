@@ -7,6 +7,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
 
 @Consumes("*/*")
@@ -30,6 +31,24 @@ public class FileResource {
         } catch (IOException e){
             LOG.error(e);
             LOG.error("ERROR uploading file");
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/{bucketName}/{fileName}")
+    @Consumes("*/*")
+    @Produces("*/*")
+    public Response getChunkedFile(@PathParam("bucketName") String bucketName, @PathParam("fileName") String fileName, @HeaderParam("Range") String range){
+        try{
+            byte[] fileByterray = fileService.getFileInChunks(bucketName, fileName);
+            return Response.status(Status.PARTIAL_CONTENT)
+                    .entity(fileByterray)
+                    .type("video/avi")
+                    .build();
+        } catch (IOException e) {
+            LOG.error(e);
+            LOG.error("ERROR deleting file");
             return Response.serverError().build();
         }
     }
