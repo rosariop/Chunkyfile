@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.List;
 
 @Consumes("*/*")
 @Tag(name = "Bucket API")
@@ -19,6 +20,20 @@ public class BucketResource {
 
     @Inject
     BucketService bucketService;
+
+    @GET
+    @Produces("application/json")
+    @Path("/{bucketName}")
+    public Response getFileListFromBucket(@PathParam("bucketName") String bucketName){
+        try {
+            List<String> fileNamesInBucket =bucketService.getFileNamesFromBucket(bucketName);
+            return Response.ok(fileNamesInBucket).build();
+        }catch (IOException e){
+            e.printStackTrace();
+            LOG.debug("IO Exception creating");
+            return Response.serverError().build();
+        }
+    }
 
     @POST
     @Produces("*/*")
