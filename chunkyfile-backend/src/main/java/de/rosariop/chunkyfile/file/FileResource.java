@@ -51,7 +51,7 @@ public class FileResource {
     @Path("/{bucketName}/{fileName}")
     @Consumes("*/*")
     @Produces("*/*")
-    public Response getChunkedFile2(@PathParam("bucketName") String bucketName, @PathParam("fileName") String fileName, @HeaderParam("Range") String range) {
+    public Response getChunkedFile(@PathParam("bucketName") String bucketName, @PathParam("fileName") String fileName, @HeaderParam("Range") String range) {
         long rangeStart;
         long rangeEnd;
 
