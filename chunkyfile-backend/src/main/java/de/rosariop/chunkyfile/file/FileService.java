@@ -72,7 +72,6 @@ public class FileService {
     }
 
     private void writeFile(byte[] content, String filename) throws IOException {
-
         File file = new File(filename);
 
         if (!file.exists()) {
@@ -85,6 +84,21 @@ public class FileService {
         try (FileOutputStream fop = new FileOutputStream(file)) {
             fop.write(content);
             fop.flush();
+        }
+    }
+
+    public String determineMimeType(File mediaFile){
+        String fileEnding = mediaFile.getName().split("\\.")[1];
+
+        switch (fileEnding){
+            case "mp4":
+                return "video/mp4";
+            case "jpg":
+                return "image/jpg";
+            case "jpeg":
+                return "image/jpeg";
+            default:
+                return "*/*";
         }
     }
 }

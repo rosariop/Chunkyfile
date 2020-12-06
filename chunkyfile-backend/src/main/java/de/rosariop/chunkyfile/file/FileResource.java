@@ -78,11 +78,9 @@ public class FileResource {
             e.printStackTrace();
         }
 
-        //Todo: build method to determine mime-type
-
         return Response.status(Status.PARTIAL_CONTENT)
                 .entity(result)
-                .header(HttpHeaders.CONTENT_TYPE, "*/*")
+                .header(HttpHeaders.CONTENT_TYPE, fileService.determineMimeType(mediaFile))
                 .header("Accept-Ranges", BYTES)
                 .header("Content-Range", BYTES + " " + rangeStart + "-" + (rangeEnd - 1) + "/" + fileSize)
                 .build();
