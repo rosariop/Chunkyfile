@@ -31,7 +31,6 @@ public class FileResource {
     @Inject
     FileService fileService;
 
-
     @POST
     @Path("/upload/{bucketName}")
     @Consumes("multipart/form-data")
@@ -78,16 +77,13 @@ public class FileResource {
             e.printStackTrace();
         }
 
-        //Todo: build method to determine mime-type
-
         return Response.status(Status.PARTIAL_CONTENT)
                 .entity(result)
-                .header(HttpHeaders.CONTENT_TYPE, "*/*")
+                .header(HttpHeaders.CONTENT_TYPE, fileService.determineMimeType(mediaFile))
                 .header("Accept-Ranges", BYTES)
                 .header("Content-Range", BYTES + " " + rangeStart + "-" + (rangeEnd - 1) + "/" + fileSize)
                 .build();
     }
-    //.header(HttpHeaders.CONTENT_LENGTH, contentLength)
 
     @DELETE
     @Path("/{bucketName}/{fileName}")
