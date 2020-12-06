@@ -31,7 +31,6 @@ public class FileResource {
     @Inject
     FileService fileService;
 
-
     @POST
     @Path("/upload/{bucketName}")
     @Consumes("multipart/form-data")
@@ -85,7 +84,6 @@ public class FileResource {
                 .header("Content-Range", BYTES + " " + rangeStart + "-" + (rangeEnd - 1) + "/" + fileSize)
                 .build();
     }
-    //.header(HttpHeaders.CONTENT_LENGTH, contentLength)
 
     @DELETE
     @Path("/{bucketName}/{fileName}")
