@@ -10,8 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 
 @Consumes("*/*")
@@ -72,20 +71,23 @@ public class FileResource {
             rangeEnd = fileSize;
         }
 
-        byte[] result = new byte[(int) (rangeEnd-rangeStart)];
-
-        String contentLength = String.valueOf(result.length);
+        byte[] result = new byte[(int) (rangeEnd - rangeStart)];
+        try (InputStream mediaFileInoutStream = new FileInputStream(mediaFile)){
+            System.arraycopy(mediaFileInoutStream.readAllBytes(), (int) rangeStart, result, 0, result.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //Todo: build method to determine mime-type
 
         return Response.status(Status.PARTIAL_CONTENT)
                 .entity(result)
-                .header(HttpHeaders.CONTENT_TYPE, "video/mp4")
+                .header(HttpHeaders.CONTENT_TYPE, "*/*")
                 .header("Accept-Ranges", BYTES)
-                .header(HttpHeaders.CONTENT_LENGTH, contentLength)
-                .header("Content-Range", BYTES + " " + rangeStart + "-" + (rangeEnd-1) + "/" +fileSize)
+                .header("Content-Range", BYTES + " " + rangeStart + "-" + (rangeEnd - 1) + "/" + fileSize)
                 .build();
     }
+    //.header(HttpHeaders.CONTENT_LENGTH, contentLength)
 
     @DELETE
     @Path("/{bucketName}/{fileName}")
