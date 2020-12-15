@@ -8,6 +8,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.*;
@@ -33,7 +34,7 @@ public class FileResource {
 
     @POST
     @Path("/upload/{bucketName}")
-    @Consumes("multipart/form-data")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces("*/*")
     public Response uploadFile(MultipartFormDataInput input, @PathParam("bucketName") String bucketName) {
         try {

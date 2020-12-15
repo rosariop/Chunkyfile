@@ -2,6 +2,12 @@ greeting:
   message: "hello"
   name: "quarkus"
 quarkus:
+  http:
+    port: 10000
+    cors: true
+    body:
+      handle-file-uploads: true
+      preallocate-body-buffer: true
   smallrye-openapi:
     path: "/swagger"
   swagger-ui:
