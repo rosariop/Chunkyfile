@@ -8,6 +8,8 @@ quarkus:
     body:
       handle-file-uploads: true
       preallocate-body-buffer: true
+    limits:
+      max-body-size: 10G
   smallrye-openapi:
     path: "/swagger"
   swagger-ui:
