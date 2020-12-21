@@ -16,5 +16,5 @@ quarkus:
     path: "/swagger-ui"
 
 config:
-  basePath: "/home/polito/chunkyfileData"
+  basePath: ${basePath}
   delimiter: "/"
