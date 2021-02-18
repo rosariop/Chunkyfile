@@ -16,5 +16,5 @@ quarkus:
     path: "/swagger-ui"
 
 config:
-  basePath: "/chunkyfile"
+  basePath: ${basePath}
   delimiter: "/"
