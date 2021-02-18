@@ -14,3 +14,12 @@ jobs:
           java-version: 11
       - name: Unit-Testing with Maven
         run: mvn test
+      - name: Building with Maven
+        run: ./mvnw package -Pnative
+      - name: Build with Docker
+        run: docker build -f src/main/docker/Dockerfile.native -t rosariop/chunkyfileBE:latest .
+      - name: Push to Github Packages
+        run: |
+          docker login ghcr.io --username roasriop --password ${{ secrets.DOCKER_TOKEN }}
+          docker tag rosariop/chunkyfileBE:latest ghcr.io/rosariop/chunkyfileBE:latest
+          docker push ghcr.io/rosariop/chunkyfileBE:latest 
