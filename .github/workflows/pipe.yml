@@ -1,0 +1,25 @@
+name: Java CI
+
+on: [pull_request]
+
+jobs:
+  unit_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Unit-Testing with Maven
+        run: mvn test
+      - name: Build with Maven
+        run: ./mvnw package -Pnative
+      - name: Build with Docker
+        run: docker build -f src/main/docker/Dockerfile.native -t rosariop/chunkyfile:latest .
+      - name: Push to Github Packages
+        run: |
+          docker login ghcr.io --username roasriop --password ${{ secrets.DOCKER_TOKEN }}
+          docker tag rosariop/chunkyfile:latest ghcr.io/rosariop/chunkyfile:latest
+          docker push ghcr.io/rosariop/chunkyfile:latest
