@@ -24,7 +24,7 @@ RUN mkdir /chunkyfile
 RUN mkdir /chunkyfiles
 
 EXPOSE 8080
-USER chunky
+USER 1001
 RUN chown -R $USER /chunkyfiles
 
 CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
