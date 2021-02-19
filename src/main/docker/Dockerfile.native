@@ -22,9 +22,9 @@ RUN chown 1001 /work \
 COPY --chown=1001:root target/*-runner /work/application
 RUN mkdir /chunkyfile
 RUN mkdir /chunkyfiles
-RUN chown 1001: /chunkyfiles
 
 EXPOSE 8080
-USER 1001
+USER chunky
+RUN chown -R $USER /chunkyfiles
 
 CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
